@@ -1,10 +1,15 @@
-import puppeteer from "puppeteer";
-import express from "express";
+// import puppeteer from "puppeteer";
+const puppeteer = require("puppeteer");
+const express = require("express");
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 
 app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+    res.sendFile("index.html", { root: path.join(__dirname, "public") });
+});
 
 app.get("/screenshot", async (req, res) => {
     const browser = await puppeteer.launch();
@@ -25,4 +30,6 @@ app.get("/screenshot", async (req, res) => {
 app.listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
 });
+
+module.exports = app;
 // http://localhost:3000/screenshot?url=https://bomanstatic.github.io/four-card-feature-section/
